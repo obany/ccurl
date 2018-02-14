@@ -151,7 +151,7 @@ int is_found(bc_trit_t* low, bc_trit_t* high, int index, int min_weight_magnitud
   return 1;
 }
 
-int is_found_fast(bc_trit_t* low, bc_trit_t* high, int min_weight_magnitude) {
+bc_trit_t is_found_fast(bc_trit_t* low, bc_trit_t* high, int min_weight_magnitude) {
   int i;
   bc_trit_t lastMeasurement = HIGH_BITS; /* (low[index] >> bitIndex & 1) !=
                                          (high[index] >> bitIndex & 1) */
@@ -230,11 +230,11 @@ void* find_nonce(void* data) {
 #else
     _BitScanForward(&shift, nonce_probe);
 #endif
-    nonce_output = 1 << shift;
+    nonce_output = 1L << shift;
     EnterCriticalSection(&my_thread->ctx->new_thread_search);
 #else
     shift = __builtin_ctzll(nonce_probe);
-    nonce_output = 1 << shift;
+    nonce_output = 1L << shift;
     pthread_mutex_lock(&my_thread->ctx->new_thread_search);
 #endif
 
